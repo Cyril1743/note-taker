@@ -5,17 +5,20 @@ const path = require("path");
 
 const app = express();
 const PORT = 3001;
-
+//Using middleware
 app.use(express.json());
 app.use(express.static("public"));
 
+//Path for default url
 app.get("/", (req, res) => {
     res.sendFile("./public/index.html");
 })
+
 app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
 }
 )
+
 app.get("/api/notes", (req, res) => {
     fs.readFile("./db/db.json", "utf-8", (err, data) => {
         if (err) {
@@ -25,6 +28,7 @@ app.get("/api/notes", (req, res) => {
         }
     })
 })
+
 app.post("/api/notes", (req, res) => {
     fs.readFile("./db/db.json", "utf-8", (err, data) => {
         if (err) {
@@ -40,6 +44,7 @@ app.post("/api/notes", (req, res) => {
         }
     })
 })
+
 app.delete("/api/notes/:id", (req, res) => {
     var noteId = req.params.id;
     fs.readFile("./db/db.json", "utf-8", (err, data) => {
@@ -64,6 +69,7 @@ app.delete("/api/notes/:id", (req, res) => {
         }
     })
 })
+
 app.listen(PORT, () => {
     console.log(`Running on http://localhost:${PORT}`);
 })
